@@ -23,11 +23,6 @@ jobs:
           ref: '2.1.x'
           token: ${{ github.token }}
           path: 'marlin'
-      # - name: Checkout out MarlinBuilder repo
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: 'main'
-      # - run: ls main
       - run: ls marlin
       - name: Replace processor architecture name
         run: sed -i 's/mega2560/STM32F103RE_creality/' marlin/platformio.ini
@@ -39,26 +34,14 @@ jobs:
         working-directory: marlin/Marlin/
         run: |
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Bootscreen.h" 
-          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" 
+          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" /
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" 
-      # - name: Cache pip
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.cache/pip
-      #   key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-      #   restore-keys: |
-      #     ${{ runner.os }}-pip-
-      # - name: Cache PlatformIO
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.platformio
-      #     key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
       - name: Select Python 3.7
         uses: actions/setup-python@v3
         with:
-          python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          python-version: '3.7'
+          architecture: 'x64'
       - name: Install PlatformIO
         run: |
           pip install -U platformio
@@ -68,3 +51,13 @@ jobs:
         working-directory: marlin
         run: |
           platformio run
+      - name: Copy Firmware over SSH
+        working-directory: marlin/.pio/build/STM32F103RE_creality/
+        uses: nogsantos/scp-deploy@master
+        with: |
+          src: *.bin
+          host: ${{ secrets.HOST }}
+          remote: ${{ secrets.REMOTE }}
+          port: ${{ secrets.PORT }}
+          user: ${{ secrets.USER }}
+          key: ${{ secrets.SPK }} run
