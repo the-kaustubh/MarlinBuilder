@@ -56,10 +56,9 @@ jobs:
           FILENAME=$(ls *bin)
           echo $FILENAME
       - name: Copy Firmware over SSH
-        working-directory: marlin/.pio/build/STM32F103RE_creality/
         uses: nogsantos/scp-deploy@master
         with: 
-          src: ${FILENAME}
+          src: marlin/.pio/build/STM32F103RE_creality/${FILENAME}
           host: ${{ secrets.HOST }}
           remote: ${{ secrets.REMOTE }}
           port: ${{ secrets.PORT }}
