@@ -59,8 +59,8 @@ jobs:
         with:
           python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
       - name: Install PlatformIO
+        working-directory: marlin
         run: |
           pip install -U platformio
           pio upgrade --dev
