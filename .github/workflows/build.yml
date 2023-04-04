@@ -34,7 +34,7 @@ jobs:
         working-directory: marlin/Marlin/
         run: |
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Bootscreen.h" 
-          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" /
+          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" 
       - name: Select Python 3.7
