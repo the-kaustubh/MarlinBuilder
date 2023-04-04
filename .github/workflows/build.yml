@@ -36,7 +36,7 @@ jobs:
       - name: Remove default config files
         run: rm marlin/Marlin/Configuration*
       - name: Get specific config files
-        working-directory: marlin/Marlin/Marlin
+        working-directory: marlin/Marlin/
         run: |
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Bootscreen.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" 
