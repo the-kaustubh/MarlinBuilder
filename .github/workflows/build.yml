@@ -51,11 +51,15 @@ jobs:
         working-directory: marlin
         run: |
           platformio run
+      - name: Get Binary Filename
+        run: |
+          FILENAME=$(ls *bin)
+          echo $FILENAME
       - name: Copy Firmware over SSH
         working-directory: marlin/.pio/build/STM32F103RE_creality/
         uses: nogsantos/scp-deploy@master
         with: 
-          src: *.bin
+          src: ${FILENAME}
           host: ${{ secrets.HOST }}
           remote: ${{ secrets.REMOTE }}
           port: ${{ secrets.PORT }}
