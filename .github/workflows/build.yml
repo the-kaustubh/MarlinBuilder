@@ -1,7 +1,17 @@
 name: GitHub Actions Demo
 
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  BASE_URL: https://raw.githubusercontent.com/MarlinFirmware/Configurations/release-2.1.2/config/examples/
+  FQ_BOARD_PATH: Creality/Ender-3%20Pro/CrealityV422
+
+
 jobs:
   Build-Marlin:
     runs-on: ubuntu-latest
@@ -13,19 +23,48 @@ jobs:
           ref: '2.1.x'
           token: ${{ github.token }}
           path: 'marlin'
-      - name: Checkout out MarlinBuilder repo
-        uses: actions/checkout@v3
-        with:
-          path: 'main'
-      - run: ls marlin
-      - run: ls main
-      # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      # - name: Check out repository code
+      # - name: Checkout out MarlinBuilder repo
       #   uses: actions/checkout@v3
-      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      # - name: List files in the repository
-      #   run: |
-      #     ls ${{ github.workspace }}
-      # - run: echo "🍏 This job's status is ${{ job.status }}."
+      #   with:
+      #     path: 'main'
+      # - run: ls main
+      - run: ls marlin
+      - name: Replace processor architecture name
+        run: sed -i 's/mega2560/STM32F103RE_creality/' marlin/platformio.ini
+      - name: Print INI file
+        run: cat marlin/platformio.ini
+      - name: Remove default config files
+        run: rm marlin/Marlin/Configuration*
+      - name: Get specific config files
+        run: |
+          wget "${BASE_URL}${FQ_BOARD_PATH}/_Bootscreen.h" -p marlin/Marlin/
+          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" -p marlin/Marlin/
+          wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" -p marlin/Marlin/
+          wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" -p marlin/Marlin/
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+      - name: Cache PlatformIO
+        uses: actions/cache@v3
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
+      - name: Select Python 3.7
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Install PlatformIO
+        run: |
+          pip install -U platformio
+          pio upgrade --dev
+          pio pkg update --global
+      - name: Run ${{ matrix.test-platform }} Tests
+        run: |
+          platformio run
