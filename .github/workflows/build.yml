@@ -41,19 +41,18 @@ jobs:
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" -p marlin/Marlin/
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" -p marlin/Marlin/
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" -p marlin/Marlin/
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-      - name: Cache PlatformIO
-        uses: actions/cache@v3
-        with:
-          path: ~/.platformio
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
-
+      # - name: Cache pip
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.cache/pip
+      #   key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+      #   restore-keys: |
+      #     ${{ runner.os }}-pip-
+      # - name: Cache PlatformIO
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.platformio
+      #     key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
       - name: Select Python 3.7
         uses: actions/setup-python@v3
         with:
