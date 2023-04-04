@@ -52,6 +52,7 @@ jobs:
         run: |
           platformio run
       - name: Get Binary Filename
+        working-directory: marlin/.pio/build/STM32F103RE_creality
         run: |
           FILENAME=$(ls *bin)
           echo $FILENAME
