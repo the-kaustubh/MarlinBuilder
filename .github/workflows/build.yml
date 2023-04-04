@@ -36,11 +36,12 @@ jobs:
       - name: Remove default config files
         run: rm marlin/Marlin/Configuration*
       - name: Get specific config files
+        working-directory: marlin/Marlin/Marlin
         run: |
-          wget "${BASE_URL}${FQ_BOARD_PATH}/_Bootscreen.h" -p marlin/Marlin/
-          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" -p marlin/Marlin/
-          wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" -p marlin/Marlin/
-          wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" -p marlin/Marlin/
+          wget "${BASE_URL}${FQ_BOARD_PATH}/_Bootscreen.h" 
+          wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" 
+          wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" 
+          wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" 
       # - name: Cache pip
       #   uses: actions/cache@v3
       #   with:
