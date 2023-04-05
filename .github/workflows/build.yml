@@ -64,4 +64,4 @@ jobs:
           remote: ${{ secrets.REMOTE }}
           port: ${{ secrets.PORT }}
           user: ${{ secrets.USER }}
-          key: ${{ secrets.SPK }} run
+          key: ${{ secrets.SPK }}
