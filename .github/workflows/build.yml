@@ -37,6 +37,10 @@ jobs:
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" 
+      - name: Enable Host Action Commands
+        run: |
+          sed -i 's|//#define HOST_ACTION_COMMANDS|#define HOST_ACTION_COMMANDS|' ${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h          
+          cat ${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h
       - name: Select Python 3.7
         uses: actions/setup-python@v3
         with:
