@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  BASE_URL: https://raw.githubusercontent.com/MarlinFirmware/Configurations/release-2.1.2/config/examples/
+  BASE_URL: https://raw.githubusercontent.com/MarlinFirmware/Configurations/release-2.1.2.1/config/examples/
   FQ_BOARD_PATH: Creality/Ender-3%20Pro/CrealityV422
 
 
@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'MarlinFirmware/Marlin'
-          ref: '2.1.x'
+          ref: '2.1.2.1'
           token: ${{ github.token }}
           path: 'marlin'
       - run: ls marlin
@@ -37,6 +37,11 @@ jobs:
           wget "${BASE_URL}${FQ_BOARD_PATH}/_Statusscreen.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration.h" 
           wget "${BASE_URL}${FQ_BOARD_PATH}/Configuration_adv.h" 
+      - name: Enable Host Action Commands
+        working-directory: marlin/Marlin/
+        run: |
+          sed -i 's|//#define HOST_ACTION_COMMANDS|#define HOST_ACTION_COMMANDS|' Configuration_adv.h          
+          cat Configuration_adv.h
       - name: Select Python 3.7
         uses: actions/setup-python@v3
         with:
