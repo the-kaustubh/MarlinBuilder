@@ -61,6 +61,13 @@ jobs:
       #   run: |
       #     FILENAME=$(ls *bin)
       #     echo $FILENAME
-      - name: Copy Firmware build
-        run: |
-          cp marlin/.pio/build/STM32F103RE_creality/firmware*bin ~/firmwares
+      # - name: Copy Firmware build
+      #   run: |
+      #     cp marlin/.pio/build/STM32F103RE_creality/firmware*bin ~/firmwares
+      - name: Copy Firmware over SSH
+        uses: nogsantos/scp-deploy@master
+        with: 
+          src: marlin/.pio/build/STM32F103RE_creality/firmware*bin
+          host: ${{ secrets.HOST }}
+          remote: ${{ secrets.REMOTE }}
+          port: ${{ secrets.PORT }}
