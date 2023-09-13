@@ -68,6 +68,8 @@ jobs:
         uses: nogsantos/scp-deploy@master
         with: 
           src: marlin/.pio/build/STM32F103RE_creality/firmware*bin
-          host: ${{ secrets.HOST }}
-          remote: ${{ secrets.REMOTE }}
-          port: ${{ secrets.PORT }}
+          host: dashboard.home
+          remote: ~/firmware
+          user: kaustubh
+          port: 22
+          key: ${{ secrets.SPK }}
