@@ -69,6 +69,10 @@ jobs:
         with:
           name: firmware-lates
           path: ./firmware*bin
+  Build-Marlin:
+    runs-on: ubuntu-latest
+    needs: [Build-Marlin]
+    steps:
       - name: Create release
         uses: actions/create-release@v1
         env:
