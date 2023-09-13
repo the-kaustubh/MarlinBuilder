@@ -61,15 +61,45 @@ jobs:
       #   run: |
       #     FILENAME=$(ls *bin)
       #     echo $FILENAME
-      # - name: Copy Firmware build
-      #   run: |
-      #     cp marlin/.pio/build/STM32F103RE_creality/firmware*bin ~/firmwares
-      - name: Copy Firmware over SSH
-        uses: nogsantos/scp-deploy@master
-        with: 
-          src: marlin/.pio/build/STM32F103RE_creality/firmware*bin
-          host: dashboard.home
-          remote: ~/firmware
-          user: kaustubh
-          port: 22
-          key: ${{ secrets.SPK }}
+      - name: Copy Firmware build
+        run: |
+          cp marlin/.pio/build/STM32F103RE_creality/firmware*bin .
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware-lates
+          path: ./firmware*bin
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: latest-firmware
+          release_name: Latest Firmware
+
+  # - name: Copy Firmware over SSH
+  #   uses: nogsantos/scp-deploy@master
+  #   with: 
+  #     src: marlin/.pio/build/STM32F103RE_creality/firmware*bin
+  #     host: dashboard.home
+  #     remote: ~/firmware
+  #     user: kaustubh
+  #     port: 22
+  #     key: ${{ secrets.SPK }}
+  # create-release:
+  #   name: 'Create GitHub Release'
+  #   runs-on: self-hosted
+  #   needs: [ Build-Marlin ]
+  #   env:
+  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - name: 'Download Binary Artifacts'
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: niv
+  #     - name: 'Create GitHub Release'
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         files: ./
+  #         tag_name: v${{ github.run_number }}
+  #         name: Release V${{ github.run_number }}
