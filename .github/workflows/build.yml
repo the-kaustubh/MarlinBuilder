@@ -42,6 +42,17 @@ jobs:
         run: |
           sed -i 's|//#define HOST_ACTION_COMMANDS|#define HOST_ACTION_COMMANDS|' Configuration_adv.h          
           cat Configuration_adv.h
+      - name: Enable BL Touch
+        working-directory: marlin/Marlin/
+        run: |
+          # Mandatory
+          sed -i 's|//#define BLTOUCH|#define BLTOUCH|' Configuration.h          
+          sed -i 's|//#define AUTO_BED_LEVELING_BILINEAR|#define AUTO_BED_LEVELING_BILINEAR|' Configuration.h          
+          sed -i 's|//#define Z_SAFE_HOMING|#define Z_SAFE_HOMING|' Configuration.h          
+
+          # # Recommended 
+          # sed -i 's|//#define LCD_BED_LEVELING|#define LCD_BED_LEVELING|' Configuration.h          
+          cat Configuration.h
       - name: Select Python 3.7
         uses: actions/setup-python@v3
         with:
