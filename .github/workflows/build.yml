@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Marlin Firmware Build
 
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
@@ -45,14 +45,24 @@ jobs:
       - name: Enable BL Touch
         working-directory: marlin/Marlin/
         run: |
+          # sed -i 's|||' Configuration.h          
           # Mandatory
           sed -i 's|//#define BLTOUCH|#define BLTOUCH|' Configuration.h          
           sed -i 's|//#define AUTO_BED_LEVELING_BILINEAR|#define AUTO_BED_LEVELING_BILINEAR|' Configuration.h          
           sed -i 's|//#define Z_SAFE_HOMING|#define Z_SAFE_HOMING|' Configuration.h          
+          sed -i 's|//#define CUSTOM_MACHINE_NAME "3D Printer"|#define CUSTOM_MACHINE_NAME "K-CE3P"|' Configuration.h          
+          sed -i 's|//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|' Configuration.h          
 
-          # # Recommended 
-          # sed -i 's|//#define LCD_BED_LEVELING|#define LCD_BED_LEVELING|' Configuration.h          
+          # Optional
+          sed -i 's|//#define LCD_BED_LEVELING|#define LCD_BED_LEVELING|' Configuration.h          
+
           cat Configuration.h
+
+          # Optional Configuration_adv.h
+          sed -i 's|//#define LCD_BACKLIGHT_TIMEOUT_MINS|#define LCD_BACKLIGHT_TIMEOUT_MINS|' Configuration_adv.h
+          sed -i 's|//#define PROBE_OFFSET_WIZARD|#define PROBE_OFFSET_WIZARD|' Configuration_adv.h
+
+          cat Configuration_adv.h
       - name: Select Python 3.7
         uses: actions/setup-python@v3
         with:
