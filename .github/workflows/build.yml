@@ -59,7 +59,6 @@ jobs:
           cat Configuration.h
 
           # Optional Configuration_adv.h
-          sed -i 's|//#define LCD_BACKLIGHT_TIMEOUT_MINS|#define LCD_BACKLIGHT_TIMEOUT_MINS|' Configuration_adv.h
           sed -i 's|//#define PROBE_OFFSET_WIZARD|#define PROBE_OFFSET_WIZARD|' Configuration_adv.h
 
           cat Configuration_adv.h
