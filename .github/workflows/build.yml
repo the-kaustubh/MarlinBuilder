@@ -53,6 +53,10 @@ jobs:
           sed -i 's|//#define CUSTOM_MACHINE_NAME "3D Printer"|#define CUSTOM_MACHINE_NAME "K-CE3P"|' Configuration.h          
           sed -i 's|//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|' Configuration.h          
 
+          # Build Plate size fix
+          sed -i 's|#define X_BED_SIZE 200|#define X_BED_SIZE 235|' Configuration.h          
+          sed -i 's|#define Y_BED_SIZE 200|#define Y_BED_SIZE 235|' Configuration.h          
+
           # Optional
           sed -i 's|//#define LCD_BED_LEVELING|#define LCD_BED_LEVELING|' Configuration.h          
 
@@ -89,17 +93,17 @@ jobs:
         with:
           name: firmware-lates
           path: ./firmware*bin
-  release:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: Create release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: latest-firmware
-          release_name: Latest Firmware
+  # release:
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   steps:
+  #     - name: Create release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         tag_name: latest-firmware
+  #         release_name: Latest Firmware
 
   # - name: Copy Firmware over SSH
   #   uses: nogsantos/scp-deploy@master
