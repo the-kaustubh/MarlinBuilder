@@ -16,6 +16,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout out Builder Repo
+        uses: actions/checkout@v3
+        with:
+          path: 'builder'
       - name: Checkout out Marlin Repo
         uses: actions/checkout@v3
         with:
@@ -51,8 +55,8 @@ jobs:
       - name: Enable BL Touch
         working-directory: marlin/Marlin/
         run: |
-          chmod +x ../../enable_bl_touch.sh
-          ../../enable_bl_touch.sh
+          chmod +x ../builder/enable_bl_touch.sh
+          ../builder/enable_bl_touch.sh
 
           cat Configuration.h
           cat Configuration_adv.h
