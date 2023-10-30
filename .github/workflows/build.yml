@@ -45,8 +45,8 @@ jobs:
       - name: Enable BL Touch
         working-directory: marlin/Marlin/
         run: |
-          chmod +x ./enable_bl_touch.sh
-          ./enable_bl_touch.sh
+          chmod +x ../enable_bl_touch.sh
+          ../enable_bl_touch.sh
 
           cat Configuration.h
           cat Configuration_adv.h
