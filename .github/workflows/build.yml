@@ -23,7 +23,10 @@ jobs:
           ref: '2.1.2.1'
           token: ${{ github.token }}
           path: 'marlin'
-      - run: ls marlin
+      - name: Run LS
+        run: |
+          ls marlin
+          ls
       - name: Replace processor architecture name
         run: sed -i 's/mega2560/STM32F103RE_creality/' marlin/platformio.ini
       - name: Print INI file
