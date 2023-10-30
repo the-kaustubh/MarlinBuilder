@@ -33,6 +33,8 @@ jobs:
           echo ----
           ls
           echo ----
+          ls builder
+          echo ----
           ls ..
       - name: Replace processor architecture name
         run: sed -i 's/mega2560/STM32F103RE_creality/' marlin/platformio.ini
