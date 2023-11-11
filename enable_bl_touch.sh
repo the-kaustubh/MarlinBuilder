@@ -7,13 +7,13 @@ sed -i 's|//#define AUTO_BED_LEVELING_BILINEAR|#define AUTO_BED_LEVELING_BILINEA
 sed -i 's|//#define Z_SAFE_HOMING|#define Z_SAFE_HOMING|' Configuration.h          
 sed -i 's|//#define CUSTOM_MACHINE_NAME "3D Printer"|#define CUSTOM_MACHINE_NAME "K-CE3P"|' Configuration.h          
 
-# Do not use z end stop for bl touch 
-# sed -i 's|//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|' Configuration.h          
+# use z end stop for bl touch 
+sed -i 's|//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN|' Configuration.h          
 
-# instead use the 5pin connector pin for bl touch
-sed -i 's|//#define USE_PROBE_FOR_Z_HOMING|#define USE_PROBE_FOR_Z_HOMING|' Configuration.h          
-# For creality 4.2.2 board PB1 is the pin for bl touch
-sed -i 's|//#define Z_MIN_PROBE_PIN 32|#define Z_MIN_PROBE_PIN PB1|' Configuration.h          
+# # diabled: use the 5pin connector pin for bl touch
+# sed -i 's|//#define USE_PROBE_FOR_Z_HOMING|#define USE_PROBE_FOR_Z_HOMING|' Configuration.h          
+# # For creality 4.2.2 board PB1 is the pin for bl touch
+# sed -i 's|//#define Z_MIN_PROBE_PIN 32|#define Z_MIN_PROBE_PIN PB1|' Configuration.h          
 
 # Set Nozzle to probe offset
 # According to https://support.th3dstudio.com/helpcenter/creality-bl-touch-probe-mount-offsets-metal-bracket/
